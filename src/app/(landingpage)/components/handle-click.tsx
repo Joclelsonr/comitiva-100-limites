@@ -50,17 +50,29 @@ export function HandleClick({ link }: { link: LinkData }) {
     }
   }
 
-  return (
-    <Link
-      key={link.id}
-      href={link.url}
-      target="_blank"
-      className={`flex items-center justify-center rounded-md p-4 text-white ${link.color}`}
-      onClick={() => handlerClick(link.title)}
-    >
-      {IconComponent && <IconComponent className="mr-2" />}
+  if (link.id === "pedidos") {
+    return (
+      <button
+        disabled={true}
+        className={`flex w-full items-center justify-center rounded-2xl p-4 text-white ${link.color}`}
+      >
+        {IconComponent && <IconComponent className="mr-2" />}
+        {link.title}
+      </button>
+    );
+  } else {
+    return (
+      <Link
+        key={link.id}
+        href={link.url}
+        target="_blank"
+        className={`flex items-center justify-center rounded-2xl p-4 text-white ${link.color}`}
+        onClick={() => handlerClick(link.id)}
+      >
+        {IconComponent && <IconComponent className="mr-2" />}
 
-      {link.title}
-    </Link>
-  );
+        {link.title}
+      </Link>
+    );
+  }
 }

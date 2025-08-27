@@ -34,7 +34,7 @@ export const links: LinkData[] = [
   },
   {
     id: "pedidos",
-    title: "Fazer Pedidos",
+    title: "Em Breve Pedidos Online",
     description: "Acesse nosso catálogo",
     url: "#",
     icon: "ShoppingBag",
