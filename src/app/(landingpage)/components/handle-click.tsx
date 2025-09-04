@@ -15,38 +15,60 @@ const iconMap = {
 
 export function HandleClick({ link }: { link: LinkData }) {
   const IconComponent = iconMap[link.icon as keyof typeof iconMap];
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
-    null,
-  );
-  const [error, setError] = useState<string | null>(null);
+  const [accessId, setAccessId] = useState<string | null>(null);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
+    const getLocation = async () => {
+      if ("geolocation" in navigator) {
+        try {
+          const position: GeolocationPosition = await new Promise(
+            (resolve, reject) => {
+              navigator.geolocation.getCurrentPosition(resolve, reject);
+            },
+          );
+          await await createAccess({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
-        },
-        (err) => {
-          setError("Permissão negada ou erro ao obter localização.");
-        },
-      );
-    } else {
-      setError("Geolocalização não suportada neste navegador.");
-    }
+        } catch (err) {
+          console.log("Erro ao obter localização:", err);
+          await createAccess();
+        }
+      } else {
+        console.log("Geolocalização nao suportada neste navegador.");
+      }
+    };
+
+    getLocation();
   }, []);
+
+  async function createAccess(location?: { lat: number; lng: number }) {
+    try {
+      const response = await fetch("/api/position", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ location }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setAccessId(data.id);
+      } else {
+        console.log("Erro ao registrar acesso:", data.error);
+      }
+    } catch (err) {
+      console.log("Erro ao registrar acesso:", err);
+    }
+  }
 
   async function handlerClick(id: string) {
     try {
       await fetch("/api/click", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ linkId: id, location }),
+        body: JSON.stringify({ accessId, linkId: id }),
       });
     } catch (err) {
-      console.error("Erro ao registrar clique:", err);
+      console.log("Erro ao registrar clique:", err);
     }
   }
 
