@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { LinkData } from "@/constants/links";
+import { useAccessId } from "@/app/provider/access-provider";
+
 import { MessageCircle, Instagram, Facebook, ShoppingBag } from "lucide-react";
 
 const iconMap = {
@@ -12,51 +13,8 @@ const iconMap = {
 };
 
 export function HandleClick({ link }: { link: LinkData }) {
+  const accessId = useAccessId();
   const IconComponent = iconMap[link.icon as keyof typeof iconMap];
-  const [accessId, setAccessId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getLocation = async () => {
-      if ("geolocation" in navigator) {
-        try {
-          const position: GeolocationPosition = await new Promise(
-            (resolve, reject) => {
-              navigator.geolocation.getCurrentPosition(resolve, reject);
-            },
-          );
-          await await createAccess({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        } catch (err) {
-          console.log("Erro ao obter localização:", err);
-          await createAccess();
-        }
-      } else {
-        console.log("Geolocalização nao suportada neste navegador.");
-      }
-    };
-
-    getLocation();
-  }, []);
-
-  async function createAccess(location?: { lat: number; lng: number }) {
-    try {
-      const response = await fetch("/api/position", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ location }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setAccessId(data.id);
-      } else {
-        console.log("Erro ao registrar acesso:", data.error);
-      }
-    } catch (err) {
-      console.log("Erro ao registrar acesso:", err);
-    }
-  }
 
   async function handlerClick(id: string, href?: string) {
     try {
