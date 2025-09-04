@@ -14,7 +14,8 @@ export const links: LinkData[] = [
     description: "Fale conosco diretamente",
     url: "https://wa.me/5594981394586",
     icon: "MessageCircle",
-    color: "bg-green-500 hover:bg-green-600",
+    color:
+      "bg-[linear-gradient(135deg,hsl(120_69%_47%)_0%,hsl(120_69%_37%)_100%)] hover:shadow-[0_0_20px_hsl(120_69%_47%_/_0.3)]",
   },
   {
     id: "instagram",
@@ -22,7 +23,8 @@ export const links: LinkData[] = [
     description: "Siga nosso perfil",
     url: "https://instagram.com/comitivaos100limites",
     icon: "Instagram",
-    color: "bg-pink-500 hover:bg-pink-600",
+    color:
+      "bg-[linear-gradient(135deg,hsl(295_85%_60%)_0%,hsl(45_93%_47%)_50%,hsl(351_95%_71%)_100%)] hover:shadow-[0_0_20px_hsl(295_85%_60%_/_0.3)]",
   },
   {
     id: "facebook",
@@ -30,7 +32,8 @@ export const links: LinkData[] = [
     description: "Curta nossa página",
     url: "https://www.facebook.com/people/Comitiva-100-Limites/61550698467584",
     icon: "Facebook",
-    color: "bg-blue-500 hover:bg-blue-600",
+    color:
+      "bg-[linear-gradient(135deg,hsl(221_83%_53%)_0%,hsl(221_83%_43%)_100%)] hover:shadow-[0_0_20px_hsl(221_83%_53%_/_0.3)]",
   },
   {
     id: "pedidos",
@@ -38,6 +41,7 @@ export const links: LinkData[] = [
     description: "Acesse nosso catálogo",
     url: "#",
     icon: "ShoppingBag",
-    color: "bg-orange-500 hover:bg-orange-600",
+    color:
+      "bg-[linear-gradient(135deg,hsl(45_93%_47%)_0%,hsl(35_91%_62%)_100%)] hover:shadow-[0_0_20px_hsl(45_93%_47%_/_0.3)]",
   },
 ];
