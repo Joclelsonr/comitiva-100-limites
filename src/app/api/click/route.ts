@@ -3,18 +3,13 @@ import { prisma } from "@/service/db/prisma";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { linkId, location } = body;
-
-  const forwarded = req.headers.get("x-forwarded-for");
-  const ipAddress = forwarded ? forwarded.split(",")[0] : null;
+  const { accessId, linkId } = body;
 
   try {
     await prisma.cliks.create({
       data: {
+        accessId,
         linkId,
-        ipAddress: ipAddress,
-        lat: String(location?.lat),
-        lng: String(location?.lng),
       },
     });
 
