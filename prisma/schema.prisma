@@ -27,15 +27,29 @@ model User {
   @@map("users")
 }
 
-model Cliks {
-  id        String  @id @default(cuid())
-  userId    String? // opcional, se quiser rastrear usuários logados
-  linkId    String
+model Access {
+  id     String  @id @default(cuid())
+  userId String? // opcional, se quiser rastrear usuários logados
+
   lat       String?
   lng       String?
   ipAddress String?
 
-  timestamp DateTime @default(now())
+  cliks Cliks[]
+
+  createdAt DateTime @default(now())
+
+  @@map("accesses")
+}
+
+model Cliks {
+  id     String @id @default(cuid())
+  linkId String
+
+  accessId String?
+  access   Access? @relation(fields: [accessId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
 
   @@map("cliks")
 }
