@@ -1,47 +1,53 @@
 "use client";
 
+import Link from "next/link";
+
 import { LinkData } from "@/constants/links";
 import { useAccessId } from "@/app/provider/access-provider";
 
-import { MessageCircle, Instagram, Facebook, ShoppingBag } from "lucide-react";
+import {
+  MessageCircle,
+  Instagram,
+  Facebook,
+  ShoppingBag,
+  Disc3,
+} from "lucide-react";
 
 const iconMap = {
   MessageCircle,
   Instagram,
   Facebook,
   ShoppingBag,
+  Disc3,
 };
 
 export function HandleClick({ link }: { link: LinkData }) {
   const accessId = useAccessId();
   const IconComponent = iconMap[link.icon as keyof typeof iconMap];
 
-  async function handlerClick(id: string, href?: string) {
+  async function handlerClick(id: string) {
     try {
-      const res = await fetch("/api/click", {
+      await fetch("/api/click", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ accessId, linkId: id }),
       });
-      if (res.ok) {
-        window.open(href, "_blank", "noopener,noreferrer");
-      }
     } catch (err) {
       console.log("Erro ao registrar clique:", err);
     }
   }
 
   return (
-    <button
+    <Link
       type="button"
-      key={link.id}
-      disabled={link.id === "pedidos"}
-      onClick={() => handlerClick(link.id, link.url)}
+      href={link.url}
+      target={link.id === "pedidos" ? "_self" : "_blank"}
+      onClick={() => handlerClick(link.id)}
       className={`flex w-full transform items-center justify-center rounded-2xl border border-white/20 p-4 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 ${link.color}`}
     >
       {IconComponent && <IconComponent className="mr-2" />}
 
       {link.title}
-    </button>
+    </Link>
   );
 }
