@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ id: createAccess.id }, { status: 200 });
   } catch (error) {
+    console.error("Erro ao criar accesso:", error);
     const errorMessage =
       error instanceof Error ? error.message : "Error creating access";
     return NextResponse.json({ error: errorMessage }, { status: 500 });

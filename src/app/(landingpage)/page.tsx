@@ -1,8 +1,9 @@
 import Image from "next/image";
 
+import { AccessProvider } from "../provider/access-provider";
+
 import { links } from "@/constants/links";
 import { HandleClick } from "@/app/(landingpage)/components/handle-click";
-import { AccessProvider } from "../provider/access-provider";
 
 export default function Home() {
   return (

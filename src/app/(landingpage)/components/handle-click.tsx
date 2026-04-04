@@ -31,6 +31,7 @@ export function HandleClick({ link }: { link: LinkData }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ accessId, linkId: id }),
+        // keepalive: true,
       });
     } catch (err) {
       console.log("Erro ao registrar clique:", err);
