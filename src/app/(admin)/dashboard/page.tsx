@@ -12,9 +12,11 @@ import { Card } from "./components/card";
 import { getAnalytics, getLinks, getRecentsLinks } from "@/lib/actions";
 
 export default async function Page() {
-  const { cliks, cliksNow, visits } = await getAnalytics();
-  const links = await getLinks();
-  const recentsLinks = await getRecentsLinks();
+  const [analytics, links, recentsLinks] = await Promise.all([
+    getAnalytics(),
+    getLinks(),
+    getRecentsLinks(),
+  ]);
 
   // if (loading) {
   //   return (
@@ -35,10 +37,10 @@ export default async function Page() {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-white">
               Analytics Dashboard
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-400">
               Acompanhe o desempenho dos seus links
             </p>
           </div>
@@ -63,36 +65,38 @@ export default async function Page() {
         <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
           <Card
             title="Total de Cliques"
-            icon={<MousePointer className="text-muted-foreground h-4 w-4" />}
-            cliks={cliks}
+            icon={<MousePointer className="h-4 w-4 text-white" />}
+            cliks={analytics.cliks}
             description="Todos os cliques registrados"
           />
 
           <Card
             title="Cliques Hoje"
-            icon={<BarChart3 className="text-muted-foreground h-4 w-4" />}
-            cliks={cliksNow}
+            icon={<BarChart3 className="h-4 w-4 text-white" />}
+            cliks={analytics.cliksNow}
             description="Cliques nas últimas 24h"
           />
 
           <Card
             title="Visitantes"
-            icon={<Users className="text-muted-foreground h-4 w-4" />}
-            cliks={visits}
+            icon={<Users className="h-4 w-4 text-white" />}
+            cliks={analytics.visits}
             description="IPs únicos registrados"
           />
         </div>
 
         <div className="grid grid-cols-1 gap-6">
           {/* Estatísticas por Link */}
-          <div className="rounded-lg border border-gray-200 p-4 shadow-sm">
+          <div className="rounded-lg border border-gray-400 p-4 shadow-sm">
             <div className="mb-2">
-              <h1 className="text-lg font-medium">Cliques por Link</h1>
+              <h1 className="text-lg font-medium text-white">
+                Cliques por Link
+              </h1>
             </div>
             {links.map((link, index) => (
               <div key={index} className="mb-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{link.nome}</span>
+                  <span className="text-sm text-white">{link.nome}</span>
                   <div className="flex items-center gap-2">
                     <div className="rounded bg-blue-100 px-2 py-1 text-sm">
                       {link.count} cliques
@@ -104,17 +108,19 @@ export default async function Page() {
           </div>
 
           {/* Cliques Recentes */}
-          <div className="rounded-lg border border-gray-200 p-4 shadow-sm">
+          <div className="rounded-lg border border-gray-400 p-4 shadow-sm">
             <div className="mb-2">
-              <h1 className="text-lg font-medium">Atividade Recente</h1>
+              <h1 className="text-lg font-medium text-white">
+                Atividade Recente
+              </h1>
             </div>
             <div>
               {recentsLinks.map((link, index) => (
                 <div key={index} className="mb-2">
                   <div className="flex items-center justify-between text-sm">
                     <div>
-                      <span className="font-medium">{link.linkId}</span>
-                      <div className="text-xs text-gray-500">
+                      <span className="text-white">{link.linkId}</span>
+                      <div className="text-xs text-gray-400">
                         {new Date(link.createdAt).toLocaleString("pt-BR")}
                       </div>
                     </div>

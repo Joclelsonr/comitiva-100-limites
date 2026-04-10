@@ -6,19 +6,19 @@ import { LinkData } from "@/constants/links";
 import { useAccessId } from "@/app/provider/access-provider";
 
 import {
-  MessageCircle,
-  Instagram,
-  Facebook,
-  ShoppingBag,
   Disc3,
+  Facebook,
+  Instagram,
+  ShoppingBag,
+  MessageCircle,
 } from "lucide-react";
 
 const iconMap = {
-  MessageCircle,
-  Instagram,
-  Facebook,
-  ShoppingBag,
   Disc3,
+  Facebook,
+  Instagram,
+  ShoppingBag,
+  MessageCircle,
 };
 
 export function HandleClick({ link }: { link: LinkData }) {
